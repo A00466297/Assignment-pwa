@@ -15,7 +15,13 @@ html {
 form {
     padding-top: 20px;
     width: 50%;
+    row-gap: 8px;
     display: inline-grid;
+}
+
+.label
+{
+    padding: 20px;
 }
 
 input[type="text"],

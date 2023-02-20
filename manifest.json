@@ -1,0 +1,17 @@
+{
+    "name": "TODOAPP",
+    "short_name": "TO-DO",
+    "description": "TODO with IndexedDB, a database in the browser!",
+    "start_url": "/",
+    "scope": ".",
+    "display": "standalone",
+    "background_color": "#FFFFFF",
+    "theme_color": "#EEEEEE",
+    "orientation": "portrait",
+    "dir": "ltr",
+    "lang": "en-CA",
+    "icons": [
+        {
+        }
+    ]
+}

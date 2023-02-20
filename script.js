@@ -22,113 +22,59 @@ async function main() {
     const assignedToInput = document.querySelector("[name='aid']");
     
 
-    let dbPendingTasks = []
-    let dbCompletedTasks = []
+    let TasksfromDB = []
     await loadTasksFromDB();
-    let pendingTasksList = []
-    let completedTasksList = []
-    let pendingTasksListDOM = null
-    let completedTasksListDOM = null
+    let TasksList = []
+    let UITasksListDOM = null
     updateDOM()
     
 
     // Read the tasks in the database
     async function loadTasksFromDB() {
-        dbPendingTasks = await getPendingTasksFromDB()
-        dbCompletedTasks = await getCompletedTasksFromDB()
+        TasksfromDB = await getAllTasksFromDB()
     }
     
     // Update the DOM
     function updateDOM () {
-        pendingTasksList = []
-        completedTasksList = []
-        pendingTasksListDOM = document.getElementById("pendingTasks")
-        completedTasksListDOM = document.getElementById("completedTasks") 
-        pendingTasksListDOM.textContext = ''
-        completedTasksListDOM.textContext = ''
+        TasksList = []
+        UITasksListDOM = document.getElementById("Tasks") 
+        UITasksListDOM.textContext = ''
+
 
         // For any pending task in database that is not in the DOM add it to DOM
-        if (dbPendingTasks) {
-            dbPendingTasks.forEach(dbPendingTask => {
-                addTaskToDOM(dbPendingTask);
-                pendingTasksList.push(dbPendingTask)
-            });
-        }
-        // For any completed task in database that is not in the DOM add it to DOM
-        if (dbCompletedTasks) {
-            dbCompletedTasks.forEach(dbCompletedTask => {
-                addTaskToDOM(dbCompletedTask);
-                completedTasksList.push(dbCompletedTask)
+        if (TasksfromDB) {
+            TasksfromDB.forEach(x => {
+                addTaskToDOM(x);
+                TasksList.push(x)
             });
         }
     }
 
     function addTaskToDB(task) {
-        addnewTask(task.tname, task.did, task.aid, task.isCompleted);
+        addnewTask(task.tname, task.did, task.aid);
     }
     
     async function addTaskToDOM(task) {
         const div = document.createElement('div');
-        div.classList.add("taskClass");
         div.id = task.id;
     
         const h1TaskName = document.createElement('h1');
-        h1TaskName.classList.add("tasktnameClass");
-        h1TaskName.innerHTML = task.taskName;
+        h1TaskName.innerHTML = task.tname;
         
         const pDueDate = document.createElement('p');
-        pDueDate.classList.add("taskdidClass");
-        pDueDate.classList.add("inlineBlock");
-        pDueDate.innerHTML = task.dueDate;
+        pDueDate.innerHTML = task.did;
     
         const pAssignedTo = document.createElement('p');
-        pAssignedTo.classList.add("taskaidClass");
-        pAssignedTo.classList.add("inlineBlock");
-        pAssignedTo.innerHTML = task.assignedTo;
-        
-        let checkboxChecked = false;
-        const checkBoxIsCompleted = document.createElement('input');
-        checkBoxIsCompleted.classList.add("inlineBlock");
-        checkBoxIsCompleted.type = "checkbox";
-        checkBoxIsCompleted.checked = checkboxChecked;
-        checkBoxIsCompleted.id = task.id + "id";
-        checkBoxIsCompleted.addEventListener('change', function() {
-            onCheckBoxChange(checkBoxIsCompleted.id, this.checked)
-        });
+        pAssignedTo.innerHTML = task.aid;
     
         div.appendChild(h1TaskName);
         div.appendChild(pDueDate);
         div.appendChild(pAssignedTo);
-        div.appendChild(checkBoxIsCompleted);
-    
-        if (task.isCompleted === "true") {
-            completedTasksListDOM.appendChild(div);
-        } else {
-            pendingTasksListDOM.appendChild(div);
-        }
+        UITasksListDOM.appendChild(div);
+        
         taskNameInput.value = '';
         dueDateInput.value = '';
         assignedToInput.value = '';
-    }
-
-    async function onCheckBoxChange(taskid, isCompleted) {
-        taskIdVal = taskid.split('id')
-        if(taskIdVal && taskIdVal.length !== 0) {
-            return await UpdateTaskStatus(taskIdVal[0], isCompleted).then(
-                loadTasksFromDB()
-            ).then(
-                updateDOM()
-            )
-        }
-
-    }
-
-    async function UpdateTaskStatus(id, isCompleted) {
-        if (isCompleted) {
-            return await markTaskCompleted(id)
-        } else {
-            return await markTaskPending(id)
-        }
     }
 
     // Events
