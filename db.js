@@ -6,7 +6,7 @@ db.version(1).stores({
 
 
 async function getAllTasksFromDB() {
-    if (db && db.tasks) { // check if db and the students table are created
+    if (db && db.tasks) { // check if db and the tasks table are created
         return await db.tasks.toArray().then((data) => {
             return data
         })
@@ -15,12 +15,10 @@ async function getAllTasksFromDB() {
     }
 }
 
-function addnewTask(taskName, dueDate, assignedTo) {
+function addNewTask(taskName, dueDate, assignedTo) {
     db.tasks.put({ taskName, dueDate, assignedTo})
         .then(() => true)
         .catch(err => {
             alert("Ouch... " + err);
         });
 }
-
-
