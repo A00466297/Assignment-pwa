@@ -52,3 +52,11 @@ input[type="submit"]:hover {
     background-color: #611c3f;
     font-family: 'Montserrat', sans-serif;
 }
+
+.Tasks {
+    background-color: #ddd;
+    border-radius: 5px;
+    padding: 10px 20px;
+    line-height: 15px;
+    margin-top: 20px;
+}
