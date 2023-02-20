@@ -54,8 +54,9 @@ input[type="submit"]:hover {
 }
 
 .Tasks {
-    background-color: #ddd;
-    border-radius: 5px;
+    background-color: #f2d2b2;
+    width: 50%;
+    display: inline-grid;
     padding: 10px 20px;
     line-height: 15px;
     margin-top: 20px;
